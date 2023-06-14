@@ -1,0 +1,36 @@
+{
+  "name": "template-js",
+  "version": "1.0.0",
+  "description": "Projeto template js",
+  "author": "Brenneguer",
+  "license": "MIT",
+  "main": "src/index.js",
+  "bin": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Brenneguer/template-js.git"
+  },
+  "keywords": [
+    "template",
+    "js",
+    "node",
+    "es-lint",
+    "prettier"
+  ],
+  "bugs": {
+    "url": "https://github.com/Brenneguer/template-js/issues"
+  },
+  "homepage": "https://github.com/Brenneguer/template-js#readme",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^15.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
+  }
+}
