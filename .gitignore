@@ -103,3 +103,5 @@ dist
 /.idea/temp-nodejs.iml
 /.idea/vcs.xml
 /.idea/*
+/.wwebjs_auth/
+/.wwebjs_cache/

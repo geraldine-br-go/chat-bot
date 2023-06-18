@@ -12,6 +12,9 @@
         "sourceType": "module"
     },
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "no-underscore-dangle": "off",
+        "no-restricted-syntax": "off",
+        "no-console": "off"
     }
 }
