@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { Client, LocalAuth, MessageTypes } = require("whatsapp-web.js");
 const repl = require("repl");
+// eslint-disable-next-line import/no-extraneous-dependencies
+const qrcode = require("qrcode-terminal");
 
 const StringUtil = require("./util/StringUtil");
 const PhoneService = require("./service/PhoneService");
@@ -13,7 +15,6 @@ const basePath = path.join(__dirname, "entity", "phones.json");
 const phoneBase = require(basePath);
 
 const client = new Client({
-  puppeteer: { headless: false },
   authStrategy: new LocalAuth(),
 });
 
@@ -28,12 +29,11 @@ client.initialize().then(() => {
 
 const messageService = new MessageService(client);
 
-client.on("qr", () => {
+client.on("qr", (qr) => {
   console.log("Please scan the QR code on the browser.");
-});
-
-client.on("authenticated", (session) => {
-  console.log(JSON.stringify(session));
+  qrcode.generate(qr, { small: true }, (generated) => {
+    console.log(generated);
+  });
 });
 
 client.on("ready", () => {
