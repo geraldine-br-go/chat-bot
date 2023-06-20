@@ -100,7 +100,8 @@ client.on("message", (message) => {
         messageService.responseThirdOption(message.from);
         return;
       }
-
+      /*
+      Desativado no lord
       if (isExistSession && StringUtil.containsFourthOption(message.body)) {
         messageService.responseFourthOption(message.from);
         return;
@@ -111,6 +112,8 @@ client.on("message", (message) => {
         PhoneService.blockPhoneNumber(message);
         return;
       }
+
+ */
 
       if (!isBlockedPhone && StringUtil.containsBye(message.body)) {
         message.reply(BYE).then();

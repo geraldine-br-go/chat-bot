@@ -5,11 +5,9 @@ const messageOptions = {
 
   OPTIONS:
     "Digite o número da opção desejada:\n" +
-    "1 - Cardápio.\n" +
-    "2 - Link para pedido.\n" +
-    "3 - Localização.\n" +
-    "4 - Horário de atendimento.\n" +
-    "5 - Falar com atendente",
+    "1 - Link para pedido.\n" +
+    "2 - Localização.\n" +
+    "3 - Falar com atendente",
 
   NO_UNDERSTAND:
     "eu sou um robô." +
@@ -17,15 +15,16 @@ const messageOptions = {
     "\nOu digite *sair* para encerrar!",
 
   FIRST_OPTION: ["1", "1 - cardapio.", "cardapio"],
-  SECCOND_OPTION: ["2", "2 - link para pedido.", "link", "pedido"],
-  THIRD_OPTION: ["3", "3 - localizacao.", "localizacao"],
+  SECCOND_OPTION: ["2", "2 - localizacao.", "localizacao"],
+  THIRD_OPTION: ["3", "3 - falar com atendente.", "atendente"],
   FOURTH_OPTION: ["4", "4 - horario de atendimento.", "horario"],
   FIFTH_OPTION: ["5", "5 - falar com atendente.", "atendente"],
   EXIT: "sair",
 
-  FIRST_OPTION_RESPONSE: "https://spezialle.web.app",
-  SECCOND_OPTION_RESPONSE: "https://laddelivery.com/#/app/cardapio/375",
-  THIRD_OPTION_RESPONSE: "https://goo.gl/maps/SMeLBrL6YvHZBMdL8",
+  FIRST_OPTION_RESPONSE:
+    "https://lordbebidasetabacaria.flowapp.site/lordbebdidasetabacaria/pedidos",
+  SECCOND_OPTION_RESPONSE: "https://goo.gl/maps/fUePyUcAQ3sDzy6R7",
+  THIRD_OPTION_RESPONSE: "Aguarde que em breve você será atendido!",
   FOURTH_OPTION_RESPONSE: "Todos os dias das 19:00 as 23:00",
   FIFTH_OPTION_RESPONSE: "Aguarde que em breve você será atendido!",
 
