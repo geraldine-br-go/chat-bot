@@ -98,6 +98,7 @@ client.on("message", (message) => {
 
       if (isExistSession && StringUtil.containsThirdOption(message.body)) {
         messageService.responseThirdOption(message.from);
+        PhoneService.blockPhoneNumber(message);
         return;
       }
       /*
@@ -123,10 +124,7 @@ client.on("message", (message) => {
 
       if (!isBlockedPhone && isExistSession) {
         messageService.sendNoUnderstand(message, clientName);
-        return;
       }
-
-      messageService.sendNoSessionForClient(clientName, message);
     });
   });
 });
