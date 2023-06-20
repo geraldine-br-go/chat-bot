@@ -1,7 +1,7 @@
 {
-  "name": "template-js",
+  "name": "chat-bot",
   "version": "1.0.0",
-  "description": "Projeto template js",
+  "description": "Comunicações básicas com o whatsapp",
   "author": "Brenneguer",
   "license": "MIT",
   "main": "src/index.js",
@@ -10,10 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/Brenneguer/template-js.git"
-  },
+  "repository": "git+ssh://git@github.com/Brenneguer/chat-bot.git",
   "keywords": [
     "template",
     "js",
@@ -36,5 +33,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8"
-  }
+  },
+  "private": false
 }
