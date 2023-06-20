@@ -1,6 +1,6 @@
 const messageOptions = {
   WELCOME:
-    "Bem vindo a Spezialle Pizzaria, eu sou o *Davi*, especialista em atendimento rápido.\n" +
+    "Bem vindo a Lord Tabacaria, eu sou o *Davi*, especialista em atendimento rápido.\n" +
     "Já vou te passar as opções disponíveis por aqui.",
 
   OPTIONS:
