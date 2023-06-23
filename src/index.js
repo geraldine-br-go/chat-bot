@@ -79,6 +79,7 @@ client.on("message", (message) => {
 
       if (isNewSession(penultimateMessage, message) && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
+        messageService.sendRemember(message.from);
         messageService.sendOptions(message.from);
         PhoneService.startClientSession(message);
         PhoneService.unlockPhoneNumber(message);
@@ -87,6 +88,7 @@ client.on("message", (message) => {
 
       if (now - lastMessageAt > fiveHours && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
+        messageService.sendRemember(message.from);
         messageService.sendOptions(message.from);
         PhoneService.unlockPhoneNumber(message);
         PhoneService.startClientSession(message);
@@ -99,34 +101,30 @@ client.on("message", (message) => {
       }
 
       if (isExistSession && StringUtil.containsFirstOption(message.body)) {
-        messageService.responseFirstOption(message.from);
-        return;
-      }
-
-      if (isExistSession && StringUtil.containsSeccondOption(message.body)) {
-        messageService.responseSeccondOption(message.from);
-        return;
-      }
-
-      if (isExistSession && StringUtil.containsThirdOption(message.body)) {
-        messageService.responseThirdOption(message.from);
-        PhoneService.blockPhoneNumber(message);
-        return;
-      }
-      /*
-      Desativado no lord
-      if (isExistSession && StringUtil.containsFourthOption(message.body)) {
-        messageService.responseFourthOption(message.from);
-        return;
-      }
-
-      if (isExistSession && StringUtil.containsFifthOption(message.body)) {
         messageService.responseFifthOption(message.from);
         PhoneService.blockPhoneNumber(message);
         return;
       }
 
- */
+      if (isExistSession && StringUtil.containsSeccondOption(message.body)) {
+        messageService.sendNoUnderstand(message, clientName);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsThirdOption(message.body)) {
+        messageService.sendNoUnderstand(message, clientName);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsFourthOption(message.body)) {
+        messageService.sendNoUnderstand(message, clientName);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsFifthOption(message.body)) {
+        messageService.sendNoUnderstand(message, clientName);
+        return;
+      }
 
       if (!isBlockedPhone && StringUtil.containsBye(message.body)) {
         message.reply(BYE).then();
