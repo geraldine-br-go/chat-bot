@@ -7,6 +7,7 @@
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
+    "dev": "nodemon --watch src --ignore src/entity src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
   },
@@ -32,6 +33,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.8"
   },
   "private": false

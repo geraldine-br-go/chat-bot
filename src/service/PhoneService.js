@@ -7,6 +7,7 @@ const phoneBase = require(basePath);
 
 class PhoneService {
   static blockPhoneNumber(message) {
+    this.unlockPhoneNumber(message);
     phoneBase.blockedNumbers.push(message.from);
     fs.writeFileSync(basePath, JSON.stringify(phoneBase), "utf-8");
   }
@@ -19,6 +20,7 @@ class PhoneService {
   }
 
   static startClientSession(message) {
+    this.cleanClientSession(message);
     phoneBase.sessionNumbers.push(message.from);
     fs.writeFileSync(basePath, JSON.stringify(phoneBase), "utf-8");
   }

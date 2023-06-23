@@ -24,7 +24,11 @@ const validBotMessage = (chat, message) =>
 console.log("Inicializando...");
 
 client.initialize().then(() => {
-  console.log("ok");
+  console.log("\n__________________________________________________");
+  console.log("||||                                           |||");
+  console.log("||||WHATSAPP CONECTADO! <<RECEBENDO MENSAGENS>>|||");
+  console.log("||||                                           |||");
+  console.log("||||___________________________________________|||");
 });
 
 const messageService = new MessageService(client);
@@ -47,6 +51,14 @@ client.on("ready", () => {
   });
 });
 
+function isNewSession(penultimateMessage, message) {
+  return (
+    penultimateMessage !== null &&
+    penultimateMessage.body !== message.body &&
+    penultimateMessage.timestamp === message.timestamp
+  );
+}
+
 client.on("message", (message) => {
   let isBlockedPhone = phoneBase.blockedNumbers.includes(message.from);
   const isExistSession = phoneBase.sessionNumbers.includes(message.from);
@@ -62,16 +74,16 @@ client.on("message", (message) => {
 
     chat.fetchMessages({ limit: limitIndex }).then((messages) => {
       const penultimateMessage = messages[messages.length - 2];
+      const lastMessageAt = penultimateMessage?.timestamp;
+      const now = Math.floor(new Date().getTime() / 1000);
 
-      if (penultimateMessage === null) {
+      if (isNewSession(penultimateMessage, message) && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
         messageService.sendOptions(message.from);
         PhoneService.startClientSession(message);
+        PhoneService.unlockPhoneNumber(message);
         return;
       }
-
-      const lastMessageAt = penultimateMessage.timestamp;
-      const now = Math.floor(new Date().getTime() / 1000);
 
       if (now - lastMessageAt > fiveHours && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
