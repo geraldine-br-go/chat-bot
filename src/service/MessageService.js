@@ -1,5 +1,6 @@
 const {
   WELCOME,
+  REMEMBER,
   OPTIONS,
   FIRST_OPTION_RESPONSE,
   SECCOND_OPTION_RESPONSE,
@@ -19,7 +20,11 @@ class MessageService {
   }
 
   sendWelcomeMessage(clientName, from) {
-    this.client.sendMessage(from, `Olá, ${clientName}!\n${WELCOME}`).then();
+    this.client.sendMessage(from, `${WELCOME}`).then();
+  }
+
+  sendRemember(from) {
+    this.client.sendMessage(from, `${REMEMBER}`).then();
   }
 
   sendOptions(from) {
