@@ -108,7 +108,7 @@ client.on("message", (message) => {
         return;
       }
 
-      if (isBlockedPhone) {
+      if (isBlockedPhone && !StringUtil.containsBye(message.body)) {
         return;
       }
 
