@@ -7,6 +7,7 @@ const {
   THIRD_OPTION_RESPONSE,
   FOURTH_OPTION_RESPONSE,
   FIFTH_OPTION_RESPONSE,
+  SIXTH_OPTION_RESPONSE,
   BYE,
   NO_UNDERSTAND,
   NO_SESSION_FOR_CLIENT,
@@ -49,6 +50,10 @@ class MessageService {
 
   responseFifthOption(from) {
     this.client.sendMessage(from, FIFTH_OPTION_RESPONSE).then();
+  }
+
+  responseSixthOption(from) {
+    this.client.sendMessage(from, SIXTH_OPTION_RESPONSE).then();
   }
 
   sendBye(from) {
