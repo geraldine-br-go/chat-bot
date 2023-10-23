@@ -34,6 +34,11 @@ class StringUtil {
     return messageOptions.FIFTH_OPTION.includes(strAjust);
   }
 
+  static containsSixthOption(str) {
+    const strAjust = this.removeAccentAndLowerCase(str);
+    return messageOptions.SIXTH_OPTION.includes(strAjust);
+  }
+
   static containsBye(str) {
     const strAjust = this.removeAccentAndLowerCase(str);
     return messageOptions.EXIT === strAjust;

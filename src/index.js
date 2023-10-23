@@ -16,31 +16,40 @@ const phoneBase = require(basePath);
 
 const client = new Client({
   authStrategy: new LocalAuth(),
+  puppeteer: {
+    // args: ['--proxy-server=proxy-server-that-requires-authentication.example.com'],
+    headless: false,
+  },
 });
 
-const validBotMessage = (chat, message) =>
-  chat.isGroup || message.isStatus || message.type !== MessageTypes.TEXT;
+client.initialize();
 
-console.log("Inicializando...");
-
-client.initialize().then(() => {
-  console.log("\n__________________________________________________");
-  console.log("||||                                           |||");
-  console.log("||||WHATSAPP CONECTADO! <<RECEBENDO MENSAGENS>>|||");
-  console.log("||||                                           |||");
-  console.log("||||___________________________________________|||");
+client.on("loading_screen", (percent, message) => {
+  console.log("LOADING SCREEN", percent, message);
 });
-
-const messageService = new MessageService(client);
 
 client.on("qr", (qr) => {
-  console.log("Please scan the QR code on the browser.");
+  console.log("QR RECEIVED", qr);
   qrcode.generate(qr, { small: true }, (generated) => {
     console.log(generated);
   });
 });
 
+client.on("authenticated", () => {
+  console.log("AUTHENTICATED");
+});
+
+client.on("auth_failure", (msg) => {
+  console.error("AUTHENTICATION FAILURE", msg);
+});
+
 client.on("ready", () => {
+  console.log("\n__________________________________________________");
+  console.log("||||                                           |||");
+  console.log("||||WHATSAPP CONECTADO! <<RECEBENDO MENSAGENS>>|||");
+  console.log("||||                                           |||");
+  console.log("||||___________________________________________|||");
+
   const shell = repl.start("wwebjs> ");
   shell.context.client = client;
   shell.on("exit", async () => {
@@ -51,11 +60,16 @@ client.on("ready", () => {
   });
 });
 
+const validBotMessage = (chat, message) =>
+  chat.isGroup || message.isStatus || message.type !== MessageTypes.TEXT;
+
+const messageService = new MessageService(client);
+
 function isNewSession(penultimateMessage, message) {
   return (
     penultimateMessage !== null &&
-    penultimateMessage.body !== message.body &&
-    penultimateMessage.timestamp === message.timestamp
+    penultimateMessage?.body !== message.body &&
+    penultimateMessage?.timestamp === message.timestamp
   );
 }
 
@@ -64,7 +78,7 @@ client.on("message", (message) => {
   const isExistSession = phoneBase.sessionNumbers.includes(message.from);
 
   const limitIndex = 3;
-  const fiveHours = 5 * 60 * 60; // multiplicar por 5
+  const fifteenMinutes = 15 * 60;
   const clientName = message?._data?.notifyName;
 
   client.getChatById(message.from).then((chat) => {
@@ -79,16 +93,14 @@ client.on("message", (message) => {
 
       if (isNewSession(penultimateMessage, message) && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
-        messageService.sendRemember(message.from);
         messageService.sendOptions(message.from);
         PhoneService.startClientSession(message);
         PhoneService.unlockPhoneNumber(message);
         return;
       }
 
-      if (now - lastMessageAt > fiveHours && !isExistSession) {
+      if (now - lastMessageAt > fifteenMinutes && !isExistSession) {
         messageService.sendWelcomeMessage(clientName, message.from);
-        messageService.sendRemember(message.from);
         messageService.sendOptions(message.from);
         PhoneService.unlockPhoneNumber(message);
         PhoneService.startClientSession(message);
@@ -96,39 +108,45 @@ client.on("message", (message) => {
         return;
       }
 
-      if (isBlockedPhone) {
+      if (isBlockedPhone && !StringUtil.containsBye(message.body)) {
         return;
       }
 
       if (isExistSession && StringUtil.containsFirstOption(message.body)) {
+        messageService.responseFirstOption(message.from);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsSeccondOption(message.body)) {
+        messageService.responseSeccondOption(message.from);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsThirdOption(message.body)) {
+        messageService.responseThirdOption(message.from);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsFourthOption(message.body)) {
+        messageService.responseFourthOption(message.from);
+        return;
+      }
+
+      if (isExistSession && StringUtil.containsFifthOption(message.body)) {
         messageService.responseFifthOption(message.from);
         PhoneService.blockPhoneNumber(message);
         return;
       }
 
-      if (isExistSession && StringUtil.containsSeccondOption(message.body)) {
-        messageService.sendNoUnderstand(message, clientName);
+      if (isExistSession && StringUtil.containsSixthOption(message.body)) {
+        messageService.responseSixthOption(message.from);
         return;
       }
 
-      if (isExistSession && StringUtil.containsThirdOption(message.body)) {
-        messageService.sendNoUnderstand(message, clientName);
-        return;
-      }
-
-      if (isExistSession && StringUtil.containsFourthOption(message.body)) {
-        messageService.sendNoUnderstand(message, clientName);
-        return;
-      }
-
-      if (isExistSession && StringUtil.containsFifthOption(message.body)) {
-        messageService.sendNoUnderstand(message, clientName);
-        return;
-      }
-
-      if (!isBlockedPhone && StringUtil.containsBye(message.body)) {
+      if (StringUtil.containsBye(message.body)) {
         message.reply(BYE).then();
-        PhoneService.blockPhoneNumber(message);
+        PhoneService.unlockPhoneNumber(message);
+        PhoneService.cleanClientSession(message);
         return;
       }
 
