@@ -78,7 +78,7 @@ client.on("message", (message) => {
   const isExistSession = phoneBase.sessionNumbers.includes(message.from);
 
   const limitIndex = 3;
-  const fiveHours = 5 * 60 * 60; // multiplicar por 5
+  const fifteenMinutes = 15 * 60;
   const clientName = message?._data?.notifyName;
 
   client.getChatById(message.from).then((chat) => {
