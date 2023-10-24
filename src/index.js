@@ -16,10 +16,6 @@ const phoneBase = require(basePath);
 
 const client = new Client({
   authStrategy: new LocalAuth(),
-  puppeteer: {
-    // args: ['--proxy-server=proxy-server-that-requires-authentication.example.com'],
-    headless: false,
-  },
 });
 
 client.initialize();
